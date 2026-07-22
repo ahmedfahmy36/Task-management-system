@@ -112,7 +112,7 @@ import { useTaskStore } from '~/stores/taskStore'
 const route = useRoute()
 const store = useTaskStore()
 const isCollapsed = ref(false)
-const windowWidth = ref(0)
+const windowWidth = ref(1024)
 
 const isMobile = computed(() => windowWidth.value < 768)
 
