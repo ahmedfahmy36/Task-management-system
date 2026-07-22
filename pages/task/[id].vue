@@ -22,9 +22,9 @@
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <!-- Header gradient -->
           <div class="h-2 w-full accent-bar"></div>
-          <div class="p-6">
+          <div class="p-5 sm:p-6">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-5">
-              <h2 class="text-2xl font-bold text-slate-800 tracking-tight leading-tight">{{ task.title }}</h2>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight leading-tight">{{ task.title }}</h2>
               <div class="flex items-center gap-2 shrink-0">
                 <span
                   class="px-3 py-1 text-xs font-bold rounded-full border"
@@ -45,7 +45,7 @@
               </div>
             </div>
 
-            <div class="flex gap-3 mb-6 border-b border-slate-100 pb-5">
+            <div class="flex gap-3 mb-6 border-b border-slate-100 pb-5 flex-wrap">
                <button v-if="task.status === 'Pending'" @click="store.updateTaskStatus(task.id, 'In Progress')" class="px-4 py-2 bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 rounded-lg text-sm font-bold flex items-center transition-colors">
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                   Start Task
@@ -53,6 +53,10 @@
                 <button v-if="task.status === 'In Progress'" @click="store.updateTaskStatus(task.id, 'Done')" class="px-4 py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 rounded-lg text-sm font-bold flex items-center transition-colors">
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                   Complete Task
+                </button>
+                <button @click="store.openModal(task)" class="px-4 py-2 bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 rounded-lg text-sm font-bold flex items-center transition-colors">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                  Edit Task
                 </button>
             </div>
 
@@ -86,7 +90,7 @@
       </div>
 
       <!-- Right: Activity Log -->
-      <div class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden max-h-[calc(100vh-10rem)]">
+      <div class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden max-h-[500px] lg:max-h-[calc(100vh-10rem)]">
         <div class="p-5 border-b border-slate-100 shrink-0">
           <h3 class="text-base font-bold text-slate-800">Activity Log</h3>
           <p class="text-xs text-slate-400 mt-0.5">Track progress and updates</p>

@@ -26,7 +26,7 @@
     </div>
 
     <!-- Calendar -->
-    <div class="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+    <div class="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col min-h-0">
       <!-- Day Headers -->
       <div class="grid grid-cols-7 border-b border-slate-100 shrink-0">
         <div
@@ -35,17 +35,18 @@
           class="py-3 text-center text-xs font-bold text-slate-400 uppercase tracking-wider border-r border-slate-100 last:border-r-0"
           :class="(day === 'Sun' || day === 'Sat') ? 'bg-slate-50/50' : ''"
         >
-          {{ day }}
+          <span class="hidden sm:inline">{{ day }}</span>
+          <span class="sm:hidden">{{ day[0] }}</span>
         </div>
       </div>
 
       <!-- Calendar Body -->
       <div class="flex-1 overflow-y-auto">
-        <div class="grid grid-cols-7" style="grid-auto-rows: minmax(120px, auto);">
+        <div class="grid grid-cols-7" style="grid-auto-rows: minmax(80px, auto);">
           <div
             v-for="(day, index) in calendarDays"
             :key="day.date.toISOString() + index"
-            class="p-2 border-b border-r border-slate-100 last:border-r-0 transition-colors"
+            class="p-1 sm:p-2 border-b border-r border-slate-100 last:border-r-0 transition-colors"
             :class="{
               'bg-slate-50/30': !day.isCurrentMonth || day.date.getDay() === 0 || day.date.getDay() === 6,
               'hover:bg-teal-50/30 cursor-pointer': day.isCurrentMonth,
@@ -54,9 +55,9 @@
             @click="day.isCurrentMonth ? store.openModal() : null"
           >
             <!-- Date Number -->
-            <div class="flex justify-end mb-1.5">
+            <div class="flex justify-end mb-1">
               <span
-                class="inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-semibold transition-colors"
+                class="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full text-xs sm:text-sm font-semibold transition-colors"
                 :class="isToday(day.date)
                   ? 'today-badge text-white font-bold shadow-sm'
                   : (day.isCurrentMonth ? 'text-slate-700 hover:bg-teal-100 hover:text-teal-700' : 'text-slate-300')"
@@ -66,24 +67,24 @@
             </div>
 
             <!-- Task Events -->
-            <div class="space-y-1 overflow-hidden">
+            <div class="space-y-0.5 overflow-hidden">
               <div
                 v-for="task in day.starts"
                 :key="'start-' + task.id"
                 @click.stop="navigateTo(`/task/${task.id}`)"
-                class="cal-chip-start px-2 py-1 text-xs rounded-lg truncate font-semibold cursor-pointer flex items-center shadow-sm hover:shadow transition-shadow"
+                class="cal-chip-start px-1 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs rounded-md sm:rounded-lg truncate font-semibold cursor-pointer flex items-center shadow-sm hover:shadow transition-shadow"
                 :title="`Starts: ${task.title}`"
               >
-                <span class="mr-1">▶</span> {{ task.title }}
+                <span class="mr-0.5 sm:mr-1 hidden sm:inline">▶</span> {{ task.title }}
               </div>
               <div
                 v-for="task in day.dues"
                 :key="'due-' + task.id"
                 @click.stop="navigateTo(`/task/${task.id}`)"
-                class="cal-chip-due px-2 py-1 text-xs rounded-lg truncate font-semibold cursor-pointer flex items-center shadow-sm hover:shadow transition-shadow"
+                class="cal-chip-due px-1 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs rounded-md sm:rounded-lg truncate font-semibold cursor-pointer flex items-center shadow-sm hover:shadow transition-shadow"
                 :title="`Due: ${task.title}`"
               >
-                <span class="mr-1">⏰</span> {{ task.title }}
+                <span class="mr-0.5 sm:mr-1 hidden sm:inline">⏰</span> {{ task.title }}
               </div>
             </div>
           </div>

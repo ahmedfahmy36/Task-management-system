@@ -30,7 +30,8 @@ export const useTaskStore = defineStore('taskStore', {
     error: null as string | null,
     hasFetchedInitialData: false,
     isModalOpen: false,
-    taskToEdit: null as Task | null
+    taskToEdit: null as Task | null,
+    toastMessage: null as string | null
   }),
   actions: {
     async fetchTasks() {
@@ -39,39 +40,16 @@ export const useTaskStore = defineStore('taskStore', {
       this.loading = true
       this.error = null
       
-      // Mock API delay
-      return new Promise<void>((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate a ~10% random API failure to demonstrate error handling
-          if (Math.random() < 0.1) {
-            this.error = 'Failed to fetch tasks. The server may be unavailable.'
-            this.loading = false
-            reject(new Error(this.error))
-            return
-          }
-
-          this.tasks = [
-            {
-              id: '1',
-              title: 'Initial Task',
-              description: 'This is the first task which i am adding to the list. If you see me in red then it means i am pending and i should have been started by now. So do something about it.',
-              status: 'Pending',
-              priority: 'High',
-              startDate: new Date().toISOString().split('T')[0] || '',
-              dueDate: new Date(Date.now() + 86400000).toISOString().split('T')[0] || '',
-              createdAt: new Date().toISOString(),
-              logs: [
-                { id: 'l1', content: 'Read the documentation for routing.', timestamp: new Date().toISOString() }
-              ],
-              duration: 120
-            }
-          ]
-          this.loading = false
-          this.hasFetchedInitialData = true
-          this.checkAutoStartTasks()
-          resolve()
-        }, 1000)
-      })
+      try {
+        const data = await $fetch<Task[]>('/api/tasks')
+        this.tasks = data
+        this.hasFetchedInitialData = true
+        this.checkAutoStartTasks()
+      } catch (err: any) {
+        this.error = err.message || 'Failed to fetch tasks.'
+      } finally {
+        this.loading = false
+      }
     },
     addTask(task: Omit<Task, 'id' | 'logs' | 'createdAt'>) {
       const newTask: Task = {
@@ -82,6 +60,7 @@ export const useTaskStore = defineStore('taskStore', {
       }
       this.tasks.push(newTask)
       this.checkAutoStartTasks()
+      this.showToast('New task added successfully!')
     },
     editTask(updatedTask: Task) {
       const index = this.tasks.findIndex(t => t.id === updatedTask.id)
@@ -89,9 +68,11 @@ export const useTaskStore = defineStore('taskStore', {
         this.tasks[index] = updatedTask
       }
       this.checkAutoStartTasks()
+      this.showToast('Task updated successfully!')
     },
     deleteTask(taskId: string) {
       this.tasks = this.tasks.filter(t => t.id !== taskId)
+      this.showToast('Task deleted successfully!')
     },
     updateTaskStatus(taskId: string, status: TaskStatus) {
       const task = this.tasks.find(t => t.id === taskId)
@@ -107,6 +88,14 @@ export const useTaskStore = defineStore('taskStore', {
     closeModal() {
       this.isModalOpen = false
       this.taskToEdit = null
+    },
+    showToast(message: string) {
+      this.toastMessage = message
+      setTimeout(() => {
+        if (this.toastMessage === message) {
+          this.toastMessage = null
+        }
+      }, 3000)
     },
     addLogToTask(taskId: string, logContent: string) {
       const task = this.tasks.find(t => t.id === taskId)
