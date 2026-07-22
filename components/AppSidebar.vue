@@ -41,7 +41,7 @@
           <span
             v-if="!isCollapsed || isMobile"
             class="text-[10px] tracking-[0.3em] text-teal-200 uppercase mt-0.5 font-medium"
-          >Task Manager</span>
+          >Task Manager System</span>
         </div>
       </div>
 

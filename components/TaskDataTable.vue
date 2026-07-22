@@ -34,7 +34,9 @@
 
       <tr v-for="task in paginatedTasks" :key="task.id" class="hover:bg-teal-50/40 transition-colors group">
         <td class="px-6 py-4">
-          <div class="text-sm font-semibold text-slate-800">{{ task.title }}</div>
+          <NuxtLink :to="`/task/${task.id}`" class="text-sm font-bold text-slate-800 hover:text-teal-600 transition-colors cursor-pointer inline-block">
+            {{ task.title }}
+          </NuxtLink>
           <div class="text-xs text-slate-400 mt-0.5 truncate max-w-xs">{{ task.description || 'No description provided.' }}</div>
         </td>
 
