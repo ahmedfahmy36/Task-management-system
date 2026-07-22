@@ -58,9 +58,8 @@
               <span
                 class="inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-semibold transition-colors"
                 :class="isToday(day.date)
-                  ? 'text-white font-bold shadow-sm'
+                  ? 'today-badge text-white font-bold shadow-sm'
                   : (day.isCurrentMonth ? 'text-slate-700 hover:bg-teal-100 hover:text-teal-700' : 'text-slate-300')"
-                :style="isToday(day.date) ? 'background: linear-gradient(135deg, #0d9488, #0891b2);' : ''"
               >
                 {{ day.date.getDate() }}
               </span>
@@ -72,8 +71,7 @@
                 v-for="task in day.starts"
                 :key="'start-' + task.id"
                 @click.stop="navigateTo(`/task/${task.id}`)"
-                class="px-2 py-1 text-xs rounded-lg truncate font-semibold cursor-pointer flex items-center shadow-sm hover:shadow transition-shadow"
-                style="background: #e0f2fe; color: #0369a1; border-left: 3px solid #0ea5e9;"
+                class="cal-chip-start px-2 py-1 text-xs rounded-lg truncate font-semibold cursor-pointer flex items-center shadow-sm hover:shadow transition-shadow"
                 :title="`Starts: ${task.title}`"
               >
                 <span class="mr-1">▶</span> {{ task.title }}
@@ -82,8 +80,7 @@
                 v-for="task in day.dues"
                 :key="'due-' + task.id"
                 @click.stop="navigateTo(`/task/${task.id}`)"
-                class="px-2 py-1 text-xs rounded-lg truncate font-semibold cursor-pointer flex items-center shadow-sm hover:shadow transition-shadow"
-                style="background: #dcfce7; color: #166534; border-left: 3px solid #16a34a;"
+                class="cal-chip-due px-2 py-1 text-xs rounded-lg truncate font-semibold cursor-pointer flex items-center shadow-sm hover:shadow transition-shadow"
                 :title="`Due: ${task.title}`"
               >
                 <span class="mr-1">⏰</span> {{ task.title }}
@@ -97,11 +94,11 @@
     <!-- Legend -->
     <div class="flex items-center gap-4 mt-4 text-xs text-slate-500">
       <div class="flex items-center gap-1.5">
-        <div class="w-3 h-3 rounded" style="background: #e0f2fe; border-left: 3px solid #0ea5e9;"></div>
+        <div class="w-3 h-3 rounded cal-legend-start"></div>
         <span>Task Starts</span>
       </div>
       <div class="flex items-center gap-1.5">
-        <div class="w-3 h-3 rounded" style="background: #dcfce7; border-left: 3px solid #16a34a;"></div>
+        <div class="w-3 h-3 rounded cal-legend-due"></div>
         <span>Task Due</span>
       </div>
     </div>

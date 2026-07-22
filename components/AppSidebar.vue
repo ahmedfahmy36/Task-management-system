@@ -1,16 +1,19 @@
 <template>
   <aside
-    class="flex flex-col h-full shrink-0 text-white transition-all duration-300 relative z-20"
+    class="sidebar-gradient flex flex-col h-full shrink-0 text-white transition-all duration-300 relative z-20"
     :class="isCollapsed ? 'w-[72px]' : 'w-56'"
-    style="background: linear-gradient(180deg, #0c4a6e 0%, #0d9488 100%);"
   >
     <!-- Toggle Button -->
     <button
       @click="toggleCollapse"
       class="absolute -right-3 top-8 bg-white text-teal-600 rounded-full p-1 shadow-md hover:bg-teal-50 focus:outline-none z-30 border border-teal-100"
     >
-      <svg v-if="!isCollapsed" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
-      <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+      <svg v-if="!isCollapsed" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+      </svg>
     </button>
 
     <div class="p-4 flex-1 flex flex-col overflow-y-auto overflow-x-hidden hide-scrollbar">
@@ -23,13 +26,19 @@
           >
             {{ isCollapsed ? 'T' : 'T.M.S' }}
           </span>
-          <span v-if="!isCollapsed" class="text-[10px] tracking-[0.3em] text-teal-200 uppercase mt-0.5 font-medium">Task Manager</span>
+          <span
+            v-if="!isCollapsed"
+            class="text-[10px] tracking-[0.3em] text-teal-200 uppercase mt-0.5 font-medium"
+          >Task Manager</span>
         </div>
       </div>
 
       <!-- Navigation List -->
       <nav class="flex-1 space-y-1">
-        <p v-if="!isCollapsed" class="text-[10px] tracking-[0.2em] text-cyan-200/60 uppercase font-semibold px-3 mb-2">Views</p>
+        <p
+          v-if="!isCollapsed"
+          class="text-[10px] tracking-[0.2em] text-cyan-200/60 uppercase font-semibold px-3 mb-2"
+        >Views</p>
 
         <NuxtLink
           to="/"
@@ -40,7 +49,10 @@
           <svg class="w-5 h-5 shrink-0 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 6h18M3 14h18M3 18h18"></path>
           </svg>
-          <span class="ml-3 whitespace-nowrap text-sm transition-all duration-200" :class="isCollapsed ? 'opacity-0 hidden' : 'opacity-100 block'">Table View</span>
+          <span
+            class="ml-3 whitespace-nowrap text-sm transition-all duration-200"
+            :class="isCollapsed ? 'opacity-0 hidden' : 'opacity-100 block'"
+          >Table View</span>
         </NuxtLink>
 
         <NuxtLink
@@ -52,7 +64,10 @@
           <svg class="w-5 h-5 shrink-0 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
           </svg>
-          <span class="ml-3 whitespace-nowrap text-sm transition-all duration-200" :class="isCollapsed ? 'opacity-0 hidden' : 'opacity-100 block'">Schedule View</span>
+          <span
+            class="ml-3 whitespace-nowrap text-sm transition-all duration-200"
+            :class="isCollapsed ? 'opacity-0 hidden' : 'opacity-100 block'"
+          >Schedule View</span>
         </NuxtLink>
       </nav>
 
@@ -60,8 +75,7 @@
       <div class="mt-auto pt-6">
         <button
           @click="store.openModal()"
-          class="bg-white/95 hover:bg-white font-bold transition-all shadow-lg flex justify-center items-center overflow-hidden"
-          style="color: #0d9488;"
+          class="sidebar-btn-color bg-white/95 hover:bg-white font-bold transition-all shadow-lg flex justify-center items-center overflow-hidden"
           :class="isCollapsed ? 'w-11 h-11 rounded-full mx-auto p-0' : 'w-full px-4 py-3 rounded-xl text-sm'"
           :title="isCollapsed ? 'Add Task' : ''"
         >
@@ -104,8 +118,3 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })
 </script>
-
-<style scoped>
-.hide-scrollbar::-webkit-scrollbar { display: none; }
-.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-</style>

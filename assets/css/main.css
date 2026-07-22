@@ -1,0 +1,101 @@
+/* ===================================
+   T.M.S — Global Stylesheet
+   =================================== */
+
+/* --- Font Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+/* --- App Shell --- */
+.app-shell {
+  background-color: #f1f5f9;
+}
+
+/* --- Sidebar Gradient --- */
+.sidebar-gradient {
+  background: linear-gradient(180deg, #0c4a6e 0%, #0d9488 100%);
+}
+
+.sidebar-btn-color {
+  color: #0d9488;
+}
+
+/* --- Branded Gradient (buttons, accents) --- */
+.btn-gradient {
+  background: linear-gradient(135deg, #0d9488, #0891b2);
+}
+
+.accent-bar {
+  background: linear-gradient(90deg, #0d9488, #0891b2);
+}
+
+/* --- Gradient Text --- */
+.gradient-text {
+  background: linear-gradient(90deg, #0d9488, #0891b2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- Calendar Event Chips --- */
+.cal-chip-start {
+  background: #e0f2fe;
+  color: #0369a1;
+  border-left: 3px solid #0ea5e9;
+}
+
+.cal-chip-due {
+  background: #dcfce7;
+  color: #166534;
+  border-left: 3px solid #16a34a;
+}
+
+.cal-legend-start {
+  background: #e0f2fe;
+  border-left: 3px solid #0ea5e9;
+}
+
+.cal-legend-due {
+  background: #dcfce7;
+  border-left: 3px solid #16a34a;
+}
+
+/* --- Today Badge --- */
+.today-badge {
+  background: linear-gradient(135deg, #0d9488, #0891b2);
+}
+
+/* --- Utility: Hide Scrollbar --- */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* --- Page Transitions --- */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}

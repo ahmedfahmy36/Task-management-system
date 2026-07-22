@@ -15,12 +15,14 @@ describe('Task Store', () => {
       title: 'Test Task',
       description: 'Testing the store',
       status: 'Pending',
+      priority: 'Medium',
+      startDate: '2050-01-01',
       dueDate: '2050-01-01',
     })
 
     expect(store.tasks.length).toBe(1)
-    expect(store.tasks[0].title).toBe('Test Task')
-    expect(store.tasks[0].status).toBe('Pending')
+    expect(store.tasks[0]!.title).toBe('Test Task')
+    expect(store.tasks[0]!.status).toBe('Pending')
   })
 
   it('deletes a task correctly', () => {
@@ -29,10 +31,12 @@ describe('Task Store', () => {
       title: 'To be deleted',
       description: '',
       status: 'Done',
+      priority: 'Low',
+      startDate: '2050-01-01',
       dueDate: '2050-01-01',
     })
 
-    const taskId = store.tasks[0].id
+    const taskId = store.tasks[0]!.id
     expect(store.tasks.length).toBe(1)
 
     store.deleteTask(taskId)

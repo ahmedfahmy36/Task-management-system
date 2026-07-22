@@ -21,7 +21,7 @@
         <!-- Task Card -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <!-- Header gradient -->
-          <div class="h-2 w-full" style="background: linear-gradient(90deg, #0d9488, #0891b2);"></div>
+          <div class="h-2 w-full accent-bar"></div>
           <div class="p-6">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-5">
               <h2 class="text-2xl font-bold text-slate-800 tracking-tight leading-tight">{{ task.title }}</h2>
@@ -43,6 +43,17 @@
                   }"
                 >{{ task.priority }}</span>
               </div>
+            </div>
+
+            <div class="flex gap-3 mb-6 border-b border-slate-100 pb-5">
+               <button v-if="task.status === 'Pending'" @click="store.updateTaskStatus(task.id, 'In Progress')" class="px-4 py-2 bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 rounded-lg text-sm font-bold flex items-center transition-colors">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  Start Task
+                </button>
+                <button v-if="task.status === 'In Progress'" @click="store.updateTaskStatus(task.id, 'Done')" class="px-4 py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 rounded-lg text-sm font-bold flex items-center transition-colors">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  Complete Task
+                </button>
             </div>
 
             <div v-if="task.image" class="mb-5 rounded-xl overflow-hidden border border-slate-200 shadow-sm">
@@ -75,7 +86,7 @@
       </div>
 
       <!-- Right: Activity Log -->
-      <div class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden" style="max-height: calc(100vh - 10rem);">
+      <div class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden max-h-[calc(100vh-10rem)]">
         <div class="p-5 border-b border-slate-100 shrink-0">
           <h3 class="text-base font-bold text-slate-800">Activity Log</h3>
           <p class="text-xs text-slate-400 mt-0.5">Track progress and updates</p>
@@ -108,7 +119,7 @@
             placeholder="What did you do today?..."
             required
           ></textarea>
-          <button type="submit" class="w-full text-sm font-bold text-white py-2.5 rounded-xl transition-all hover:opacity-90 shadow-sm" style="background: linear-gradient(135deg, #0d9488, #0891b2);">
+          <button type="submit" class="btn-gradient w-full text-sm font-bold text-white py-2.5 rounded-xl transition-all hover:opacity-90 shadow-sm">
             Post Update
           </button>
         </form>

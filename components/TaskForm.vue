@@ -27,16 +27,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="flex flex-col gap-1.5">
-        <label class="text-sm font-semibold text-slate-700">Status</label>
-        <select v-model="formData.status" class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm">
-          <option value="Pending">Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Done">Done</option>
-        </select>
-      </div>
-
-      <div class="flex flex-col gap-1.5">
+      <div class="flex flex-col gap-1.5 md:col-span-2">
         <label class="text-sm font-semibold text-slate-700">Priority</label>
         <select v-model="formData.priority" class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm">
           <option value="Low">🟦 Low</option>
@@ -89,7 +80,7 @@
       <button type="button" @click="$emit('cancel')" class="px-5 py-2.5 text-sm font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors">
         Cancel
       </button>
-      <button type="submit" class="px-6 py-2.5 text-sm font-bold text-white rounded-xl shadow-md hover:opacity-90 transition-all" style="background: linear-gradient(135deg, #0d9488, #0891b2);">
+      <button type="submit" class="btn-gradient px-6 py-2.5 text-sm font-bold text-white rounded-xl shadow-md hover:opacity-90 transition-all">
         {{ isEditing ? 'Update Task' : 'Add Task' }}
       </button>
     </div>
@@ -107,7 +98,7 @@ const emit = defineEmits<{
   (e: 'cancel'): void
 }>()
 
-const today = new Date().toISOString().split('T')[0]
+const today = new Date().toISOString().split('T')[0] || ''
 
 const formData = ref({
   title: '', description: '',
@@ -159,7 +150,14 @@ const handleFileUpload = (event: Event) => {
 const handleSubmit = () => {
   error.value = ''
   if (!formData.value.title.trim()) { error.value = 'Title is required.'; return }
-  if (new Date(formData.value.dueDate) < new Date(formData.value.startDate)) {
+  if (!isEditing.value) {
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
+    if (formData.value.dueDate && new Date(formData.value.dueDate) <= now) {
+      error.value = 'Due date must be in the future.'; return
+    }
+  }
+  if (formData.value.dueDate && formData.value.startDate && new Date(formData.value.dueDate) < new Date(formData.value.startDate)) {
     error.value = 'Due date cannot be earlier than start date.'; return
   }
   const payload = { ...formData.value }

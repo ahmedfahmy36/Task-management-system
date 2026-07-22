@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 
 export type TaskStatus = 'Pending' | 'In Progress' | 'Done'
+export type TaskPriority = 'Low' | 'Medium' | 'High'
 
 export interface TaskLog {
   id: string
@@ -39,17 +40,25 @@ export const useTaskStore = defineStore('taskStore', {
       this.error = null
       
       // Mock API delay
-      return new Promise<void>((resolve) => {
+      return new Promise<void>((resolve, reject) => {
         setTimeout(() => {
+          // Simulate a ~10% random API failure to demonstrate error handling
+          if (Math.random() < 0.1) {
+            this.error = 'Failed to fetch tasks. The server may be unavailable.'
+            this.loading = false
+            reject(new Error(this.error))
+            return
+          }
+
           this.tasks = [
             {
               id: '1',
-              title: 'Learn Nuxt 3',
-              description: 'Understand the basics of Nuxt 3 and Vue Composition API',
-              status: 'In Progress',
+              title: 'Initial Task',
+              description: 'This is the first task which i am adding to the list. If you see me in red then it means i am pending and i should have been started by now. So do something about it.',
+              status: 'Pending',
               priority: 'High',
-              startDate: new Date().toISOString().split('T')[0],
-              dueDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+              startDate: new Date().toISOString().split('T')[0] || '',
+              dueDate: new Date(Date.now() + 86400000).toISOString().split('T')[0] || '',
               createdAt: new Date().toISOString(),
               logs: [
                 { id: 'l1', content: 'Read the documentation for routing.', timestamp: new Date().toISOString() }
@@ -59,26 +68,37 @@ export const useTaskStore = defineStore('taskStore', {
           ]
           this.loading = false
           this.hasFetchedInitialData = true
+          this.checkAutoStartTasks()
           resolve()
         }, 1000)
       })
     },
-    addTask(task: Omit<Task, 'id' | 'logs'>) {
+    addTask(task: Omit<Task, 'id' | 'logs' | 'createdAt'>) {
       const newTask: Task = {
         ...task,
         id: Date.now().toString(),
+        createdAt: new Date().toISOString(),
         logs: []
       }
       this.tasks.push(newTask)
+      this.checkAutoStartTasks()
     },
     editTask(updatedTask: Task) {
       const index = this.tasks.findIndex(t => t.id === updatedTask.id)
       if (index !== -1) {
         this.tasks[index] = updatedTask
       }
+      this.checkAutoStartTasks()
     },
     deleteTask(taskId: string) {
       this.tasks = this.tasks.filter(t => t.id !== taskId)
+    },
+    updateTaskStatus(taskId: string, status: TaskStatus) {
+      const task = this.tasks.find(t => t.id === taskId)
+      if (task) {
+        task.status = status
+        this.addLogToTask(taskId, `Status changed to ${status}`)
+      }
     },
     openModal(task?: Task) {
       this.taskToEdit = task || null
@@ -97,6 +117,15 @@ export const useTaskStore = defineStore('taskStore', {
           timestamp: new Date().toISOString()
         })
       }
+    },
+    checkAutoStartTasks() {
+      const today = new Date().toISOString().slice(0, 10)
+      this.tasks.forEach(task => {
+        if (task.status === 'Pending' && task.startDate <= today) {
+          task.status = 'In Progress'
+          this.addLogToTask(task.id, 'Task auto-started because its start date was reached.')
+        }
+      })
     }
   },
   getters: {
