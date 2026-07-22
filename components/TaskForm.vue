@@ -6,8 +6,10 @@
     </div>
 
     <div class="flex flex-col gap-1.5">
-      <label class="text-sm font-semibold text-slate-700">Title <span class="text-teal-500">*</span></label>
+      <label for="task-title" class="text-sm font-semibold text-slate-700">Title <span class="text-teal-500">*</span></label>
       <input
+        id="task-title"
+        name="title"
         v-model="formData.title"
         type="text"
         placeholder="Enter task title..."
@@ -17,8 +19,10 @@
     </div>
 
     <div class="flex flex-col gap-1.5">
-      <label class="text-sm font-semibold text-slate-700">Description</label>
+      <label for="task-description" class="text-sm font-semibold text-slate-700">Description</label>
       <textarea
+        id="task-description"
+        name="description"
         v-model="formData.description"
         rows="3"
         placeholder="Describe the task..."
@@ -28,8 +32,8 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="flex flex-col gap-1.5 md:col-span-2">
-        <label class="text-sm font-semibold text-slate-700">Priority</label>
-        <select v-model="formData.priority" class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm">
+        <label for="task-priority" class="text-sm font-semibold text-slate-700">Priority</label>
+        <select id="task-priority" name="priority" v-model="formData.priority" class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm">
           <option value="Low">🟦 Low</option>
           <option value="Medium">🟧 Medium</option>
           <option value="High">🔴 High</option>
@@ -39,24 +43,26 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="flex flex-col gap-1.5">
-        <label class="text-sm font-semibold text-slate-700">Start Date <span class="text-teal-500">*</span></label>
-        <input v-model="formData.startDate" type="date" required class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm" />
+        <label for="task-start-date" class="text-sm font-semibold text-slate-700">Start Date <span class="text-teal-500">*</span></label>
+        <input id="task-start-date" name="startDate" v-model="formData.startDate" type="date" required class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm" />
       </div>
       <div class="flex flex-col gap-1.5">
-        <label class="text-sm font-semibold text-slate-700">Due Date <span class="text-teal-500">*</span></label>
-        <input v-model="formData.dueDate" type="date" required class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm" />
+        <label for="task-due-date" class="text-sm font-semibold text-slate-700">Due Date <span class="text-teal-500">*</span></label>
+        <input id="task-due-date" name="dueDate" v-model="formData.dueDate" type="date" required class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm" />
       </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="flex flex-col gap-1.5">
-        <label class="text-sm font-semibold text-slate-700">Duration (minutes)</label>
-        <input v-model="formData.duration" type="number" placeholder="e.g. 60" class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm placeholder-slate-400" />
+        <label for="task-duration" class="text-sm font-semibold text-slate-700">Duration (minutes)</label>
+        <input id="task-duration" name="duration" v-model="formData.duration" type="number" placeholder="e.g. 60" class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 bg-white text-slate-700 shadow-sm placeholder-slate-400" />
       </div>
 
       <div class="flex flex-col gap-1.5">
-        <label class="text-sm font-semibold text-slate-700">Image Upload</label>
+        <label for="task-image" class="text-sm font-semibold text-slate-700">Image Upload</label>
         <input
+          id="task-image"
+          name="image"
           type="file"
           @change="handleFileUpload"
           accept="image/*"
