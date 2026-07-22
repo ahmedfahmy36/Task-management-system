@@ -13,7 +13,10 @@ export interface Task {
   title: string
   description: string
   status: TaskStatus
+  priority: TaskPriority
+  startDate: string
   dueDate: string
+  createdAt: string
   image?: string
   duration?: number // in minutes
   logs: TaskLog[]
@@ -44,7 +47,10 @@ export const useTaskStore = defineStore('taskStore', {
               title: 'Learn Nuxt 3',
               description: 'Understand the basics of Nuxt 3 and Vue Composition API',
               status: 'In Progress',
+              priority: 'High',
+              startDate: new Date().toISOString().split('T')[0],
               dueDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+              createdAt: new Date().toISOString(),
               logs: [
                 { id: 'l1', content: 'Read the documentation for routing.', timestamp: new Date().toISOString() }
               ],
